@@ -163,7 +163,7 @@ class Game {
             for (let i = index; i >= 0; i--) {
                 if (line[i - 1] !== undefined) {
                     if (line[i - 1] === 0) {
-                        line[i - 1] = item;
+                        line[i - 1] = line[i];
                         line[i] = 0;
                     } else if (line[i - 1].cost === line[i].cost) {
                         line[i - 1].cost *= 2;
@@ -179,10 +179,7 @@ class Game {
     _move = (direction) => {
         let countChanges = 0;
 
-        /**/
-
         for (let x = 0; x <= 3; x++) {
-
             let mutableLine = [];
             let originalLine = [];
 
@@ -215,6 +212,9 @@ class Game {
 
             mutableLine = this._shrink(mutableLine);
 
+            console.log(`mutable: 1 = ${mutableLine[0]}, 2 = ${mutableLine[1]}, 3 = ${mutableLine[2]}, 4 = ${mutableLine[3]},`);
+            console.log(`original: 1 = ${originalLine[0]}, 2 = ${originalLine[1]}, 3 = ${originalLine[2]}, 4 = ${originalLine[3]},`);
+
             for (let i = 0; i <= mutableLine.length; i++) {
                 if (mutableLine[i] !== originalLine[i]) {
                     countChanges++;
@@ -243,16 +243,16 @@ class Game {
                     };
                     break;
             };
-
         };
 
         console.log(countChanges);
+        console.log(this.tiles);
         
         this._updateCoordinates();
 
-        if (countChanges !== 0) {
+        /*if (countChanges !== 0) {
             this._addNewTile();
-        };
+        };*/
 
         this._draw();
     };
@@ -273,4 +273,6 @@ class Game {
 };
 
 const GAME = new Game();
+
+/* Check and fix _shrink func */
 
