@@ -155,24 +155,37 @@ class Game {
     };
 
     _shrink = (line) => {
-        line.forEach((item, index) => {
-            if (index === 0 || item === 0) {
-                return;
-            };
 
-            for (let i = index; i >= 0; i--) {
-                if (line[i - 1] !== undefined) {
-                    if (line[i - 1] === 0) {
-                        line[i - 1] = line[i];
-                        line[i] = 0;
-                    } else if (line[i - 1].cost === line[i].cost) {
-                        line[i - 1].cost *= 2;
-                        line[i] = 0;
-                        return;
+        for (let i = 0; i < line.length; i++) {
+            if (line[i] === 0) {
+                line.splice(i, 1);
+                i--;
+            };
+        };
+
+        /* magic */
+
+        if (line.length > 1) {
+            line.forEach((item, index) => {
+                if (line[index - 1] !== undefined) {
+                    if (item.cost === line[index - 1].cost) {
+                        line[index - 1].cost *= 2;
+                        line.splice(index, 1);
                     };
                 };
+            });
+        };
+
+        /**/
+
+        for (let i = 1; i <= 4; i++) {
+            if (line.length != 4) {
+                line.push(0);
             };
-        });
+        };
+
+        console.log(`line in shrink = ${line}`)
+
         return line;
     };
 
@@ -211,10 +224,10 @@ class Game {
             };
 
             mutableLine = this._shrink(mutableLine);
-
+/*
             console.log(`mutable: 1 = ${mutableLine[0]}, 2 = ${mutableLine[1]}, 3 = ${mutableLine[2]}, 4 = ${mutableLine[3]},`);
             console.log(`original: 1 = ${originalLine[0]}, 2 = ${originalLine[1]}, 3 = ${originalLine[2]}, 4 = ${originalLine[3]},`);
-
+*/
             for (let i = 0; i <= mutableLine.length; i++) {
                 if (mutableLine[i] !== originalLine[i]) {
                     countChanges++;
@@ -245,14 +258,14 @@ class Game {
             };
         };
 
-        console.log(countChanges);
-        console.log(this.tiles);
+/*        console.log(countChanges);
+        console.log(this.tiles);*/
         
         this._updateCoordinates();
 
-        /*if (countChanges !== 0) {
+        if (countChanges !== 0) {
             this._addNewTile();
-        };*/
+        };
 
         this._draw();
     };
