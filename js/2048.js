@@ -38,8 +38,8 @@ class Map {
         map.classList.add('map');
         this.container.appendChild(map);
 
-        for (let y = this.height; y >= 1; y--) {
-            for (let x = 1; x <= this.width; x++) {
+        for (let y = this.height - 1; y >= 0; y--) {
+            for (let x = 0; x <= this.width - 1; x++) {
                 let cell = document.createElement('div');
                 cell.classList.add('cell');
                 cell.setAttribute('x', x);
@@ -63,7 +63,6 @@ class Tile {
 
         this.x = 0;
         this.y = 0;
-
         this.cost = 2;
 
         this.generate();
@@ -95,17 +94,17 @@ class Tile {
 class Game {
 
     constructor() {
+        this._init();
         this._controls();
-        this._start();
     };
 
-    _start = () => {
-        this.map = new Map();
+    _init = () => {
         this.tiles = [[0, 0, 0, 0],
                       [0, 0, 0, 0],
                       [0, 0, 0, 0],
                       [0, 0, 0, 0]];
 
+        this.map = new Map();
         this._addNewTile();
         console.log(this.tiles);
     };
@@ -124,7 +123,6 @@ class Game {
 
     _emptyCellsChecker = () => {
         let count = 0;
-
         for (let x = 0; x <= 3; x++) {
             for (let y = 0; y <= 3; y++) {
                 if (this.tiles[x][y] === 0) {
@@ -132,7 +130,6 @@ class Game {
                 };
             };
         };
-
         return count;
     };
 
@@ -143,23 +140,21 @@ class Game {
 
         this.factory = new TileFactory();
         let newTile = this.factory.createTile();
-        this.tiles[newTile.x - 1][newTile.y - 1] = newTile;
+        this.tiles[newTile.x][newTile.y] = newTile;
     };
 
     _updateCoordinates = () => {
         for (let x = 0; x <= 3; x++) {
             for (let y = 0; y <= 3; y++) {
                 if (this.tiles[x][y] !== 0) {
-                    this.tiles[x][y].x = x + 1;
-                    this.tiles[x][y].y = y + 1;
-                    /*console.log(`x = ${x}, y = ${y}, tile-x = ${this.tiles[x][y].x}, tile-y = ${this.tiles[x][y].y}`);*/
+                    this.tiles[x][y].x = x;
+                    this.tiles[x][y].y = y;
                 };
             };
         };
     };
 
     _shrink = (line) => {
-
         line.forEach((item, index) => {
             if (index === 0 || item === 0) {
                 return;
@@ -178,127 +173,82 @@ class Game {
                 };
             };
         });
-
         return line;
     };
 
     _move = (direction) => {
-
         let countChanges = 0;
 
-        switch (direction) {
-            case 'Up':
-                for (let x = 0; x <= 3; x++) {
-                    let muttableLine = [];
-                    let originalLine = [];
+        /**/
 
+        for (let x = 0; x <= 3; x++) {
+
+            let mutableLine = [];
+            let originalLine = [];
+
+            switch (direction) {
+                case 'Up':
                     for (let y = 3; y >= 0; y--) {
-                        muttableLine.push(this.tiles[x][y]);
+                        mutableLine.push(this.tiles[x][y]);
                         originalLine.push(this.tiles[x][y]);
                     };
-                    
-                    muttableLine = this._shrink(muttableLine);
-
-                    console.log(muttableLine);
-                    console.log(originalLine);
-
-                    for (let i = 0; i <= muttableLine.length; i++) {
-                        if (muttableLine[i] !== originalLine[i]) {
-                            countChanges++;
-                        };
+                    break;
+                case 'Down':
+                    for (let y = 0; y <= 3; y++) {
+                        mutableLine.push(this.tiles[x][y]);
+                        originalLine.push(this.tiles[x][y]);
                     };
-
+                    break;
+                case 'Left':
+                    for (let y = 0; y <= 3; y++) {
+                        mutableLine.push(this.tiles[y][x]);
+                        originalLine.push(this.tiles[y][x]);
+                    };
+                    break;
+                case 'Right':
                     for (let y = 3; y >= 0; y--) {
-                        this.tiles[x][y] = muttableLine.shift();
+                        mutableLine.push(this.tiles[y][x]);
+                        originalLine.push(this.tiles[y][x]);
                     };
-                };
-                break;
-            case 'Down':
-                for (let x = 0; x <= 3; x++) {
-                    let muttableLine = [];
-                    let originalLine = [];
+                    break;
+            };
 
+            mutableLine = this._shrink(mutableLine);
+
+            for (let i = 0; i <= mutableLine.length; i++) {
+                if (mutableLine[i] !== originalLine[i]) {
+                    countChanges++;
+                };
+            };
+
+            switch (direction) {
+                case 'Up':
+                    for (let y = 3; y >= 0; y--) {
+                        this.tiles[x][y] = mutableLine.shift();
+                    };
+                    break;
+                case 'Down':
                     for (let y = 0; y <= 3; y++) {
-                        muttableLine.push(this.tiles[x][y]);
-                        originalLine.push(this.tiles[x][y]);
+                        this.tiles[x][y] = mutableLine.shift();
                     };
-
-                    muttableLine = this._shrink(muttableLine);
-
-                    console.log(muttableLine);
-                    console.log(originalLine);
-
-                    for (let i = 0; i <= muttableLine.length; i++) {
-                        if (muttableLine[i] !== originalLine[i]) {
-                            countChanges++;
-                        };
-                    };
-
+                    break;
+                case 'Left':
                     for (let y = 0; y <= 3; y++) {
-                        this.tiles[x][y] = muttableLine.shift();
+                        this.tiles[y][x] = mutableLine.shift();
                     };
-                };
-                break;
-            case 'Left':
-                for (let y = 0; y <= 3; y++) {
-                    let muttableLine = [];
-                    let originalLine = [];
-
-                    for (let x = 0; x <= 3; x++) {
-                        muttableLine.push(this.tiles[x][y]);
-                        originalLine.push(this.tiles[x][y]);
+                    break;
+                case 'Right':
+                    for (let y = 3; y >= 0; y--) {
+                        this.tiles[y][x] = mutableLine.shift();
                     };
+                    break;
+            };
 
-                    muttableLine = this._shrink(muttableLine);
-
-                    console.log(muttableLine);
-                    console.log(originalLine);
-
-                    for (let i = 0; i <= muttableLine.length; i++) {
-                        if (muttableLine[i] !== originalLine[i]) {
-                            countChanges++;
-                        };
-                    };
-
-                    for (let x = 0; x <= 3; x++) {
-                        this.tiles[x][y] = muttableLine.shift();
-                    };
-                };
-                break;
-            case 'Right':
-                for (let y = 0; y <= 3; y++) {
-                    let muttableLine = [];
-                    let originalLine = [];
-
-                    for (let x = 3; x >= 0; x--) {
-                        muttableLine.push(this.tiles[x][y]);
-                        originalLine.push(this.tiles[x][y]);
-                    };
-
-                    muttableLine = this._shrink(muttableLine);
-
-                    console.log(muttableLine);
-                    console.log(originalLine);
-
-                    for (let i = 0; i <= muttableLine.length; i++) {
-                        if (muttableLine[i] !== originalLine[i]) {
-                            countChanges++;
-                        };
-                    };
-
-                    for (let x = 3; x >= 0; x--) {
-                        this.tiles[x][y] = muttableLine.shift();
-                    };
-                };
-                break;
-            default:
-                console.log('_move() catch default');
-                break;
         };
 
-        this._updateCoordinates();
-
         console.log(countChanges);
+        
+        this._updateCoordinates();
 
         if (countChanges !== 0) {
             this._addNewTile();
