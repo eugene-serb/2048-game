@@ -1,4 +1,12 @@
+/* --------- */
+/* 2048 GAME */
+/* --------- */
+
 'use strict';
+
+/* ------- */
+/* SUPPORT */
+/* ------- */
 
 class Support {
 
@@ -9,6 +17,10 @@ class Support {
     };
 };
 
+/* -------------- */
+/* CONFIGURATIONS */
+/* -------------- */
+
 class Configurations {
 
     constructor() {
@@ -16,8 +28,81 @@ class Configurations {
         this.MAP_HEIGHT = 4;
 
         this.MAP_WRAPPER = document.querySelector('.game-2048__map-wrapper');
+        this.SCORE_WRAPPER = document.querySelector('.game-2048__score');
+        this.TIMER_WRAPPER = document.querySelector('.game-2048__timer');
     };
 };
+
+/* ----- */
+/* SCORE */
+/* ----- */
+
+class Score {
+
+    constructor() {
+        this.configurations = new Configurations();
+
+        this.scoreWrapper = this.configurations.SCORE_WRAPPER;
+        this.balance = 0;
+
+        this.draw();
+    };
+
+    update = (n) => {
+        this.balance = n;
+        this.draw();
+    };
+
+    draw = () => {
+        this.scoreWrapper.innerText = `Your Score: ${this.balance}`;
+    };
+};
+
+/* ----- */
+/* TIMER */
+/* ----- */
+
+class Timer {
+
+    constructor() {
+        this.configurations = new Configurations();
+
+        this.timerWrapper = this.configurations.TIMER_WRAPPER;
+        this.time = '00:00';
+
+        this.timeStart = Date.now();
+        this.timeNow = this.timeStart;
+
+        this.draw();
+    };
+
+    draw() {
+        this._calculate();
+        this.timerWrapper.innerText = `Round Time: ${this.time}`;
+    };
+
+    _calculate() {
+        this.timeNow = Date.now();
+        let delta = this.timeNow - this.timeStart;
+
+        let seconds = Math.floor(delta / 1000);
+        let minutes = 0;
+
+        if (seconds >= 60) {
+            minutes = Math.floor(seconds / 60);
+            seconds = seconds - (minutes * 60);
+        };
+
+        minutes = (minutes < 10) ? `0${minutes}` : `${minutes}`;
+        seconds = (seconds < 10) ? `0${seconds}` : `${seconds}`;
+
+        this.time = `${minutes}:${seconds}`;
+    };
+};
+
+/* --- */
+/* MAP */
+/* --- */
 
 class Map {
 
@@ -50,11 +135,20 @@ class Map {
     };
 };
 
+/* -------------- */
+/* TILE FACTORIES */
+/* -------------- */
+
 class TileFactory {
     createTile = () => {
         return new Tile();
     };
 };
+
+/* ----- */
+/* TILES */
+/* ----- */
+
 
 class Tile {
 
@@ -91,6 +185,10 @@ class Tile {
     };
 };
 
+/* ---- */
+/* GAME */
+/* ---- */
+
 class Game {
 
     constructor() {
@@ -105,11 +203,19 @@ class Game {
                       [0, 0, 0, 0]];
 
         this.map = new Map();
+        this.score = new Score();
+        this.timer = new Timer();
+
         this._addNewTile();
+
+        this._countScore();
+        this.interval = setInterval(this._draw, 1000);
     };
 
     _draw = () => {
         this.map.draw();
+        this.score.draw();
+        this.timer.draw();
 
         for (let x = 0; x <= 3; x++) {
             for (let y = 0; y <= 3; y++) {
@@ -118,6 +224,21 @@ class Game {
                 };
             };
         };
+    };
+
+    _countScore = () => {
+
+        let totalScore = 0;
+
+        for (let x = 0; x <= 3; x++) {
+            for (let y = 0; y <= 3; y++) {
+                if (this.tiles[x][y] !== 0) {
+                    totalScore += this.tiles[x][y].cost;
+                };
+            };
+        };
+
+        this.score.update(totalScore);
     };
 
     _emptyCellsChecker = () => {
@@ -256,6 +377,7 @@ class Game {
         };
 
         this._draw();
+        this._countScore();
     };
 
     _controls = () => {
@@ -272,6 +394,10 @@ class Game {
         });
     };
 };
+
+/* -------------- */
+/* INITIALIZATION */
+/* -------------- */
 
 const GAME = new Game();
 

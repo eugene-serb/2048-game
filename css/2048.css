@@ -1,23 +1,59 @@
+/* --------- */
+/* 2048 GAME */
+/* --------- */
+
 .game-2048 {
     margin: 0 auto;
     width: 540px;
     height: 540px;
 }
 
-.map {
-    width: 540px;
-    height: 540px;
-    outline: 1px solid #000000;
+.game-2048__header {
+    text-align: center;
+}
+
+.game-2048__map-wrapper {
+    margin-block-end: 32px;
+}
+
+.game-2048__banner {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: space-around;
+    font-size: 24px;
+    margin-block-end: 16px;
+}
+
+.game-2048__rules {
+    text-align: center;
+    font-size: 16px;
+}
+
+/* ---- */
+/* GAME */
+/* ---- */
+
+.map {
+    width: 540px;
+    height: 540px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    background-color: var(--color-d);
+    outline: 2px dashed var(--color-border);
+    border-radius: 4px;
 }
 
 .cell {
     width: 135px;
     height: 135px;
-    border: 1px solid #DDDDDD;
+    border: 1px solid #FFFFFF;
 }
+
+/* ----- */
+/* TILES */
+/* ----- */
 
 .tile {
     display: flex;
