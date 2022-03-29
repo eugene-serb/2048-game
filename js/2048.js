@@ -194,6 +194,7 @@ class Game {
     constructor() {
         this._init();
         this._controls();
+        this._gamepads();
     };
 
     _init = () => {
@@ -397,8 +398,66 @@ class Game {
         });
     };
 
-    _gamepad = () => {
+    _gamepads = () => {
 
+        const addGamepad = () => {
+            if (!checkGamepadSupport()) {
+                return;
+            };
+
+            window.addEventListener('gamepadconnected', () => {
+
+                const update = () => {
+                    let gamepads = navigator.getGamepads();
+                    let isPressed = false;
+                    let button;
+
+                    gamepads[0].buttons.forEach((item, index) => {
+                        if (item.value === 1) {
+                            button = index;
+                            isPressed = true;
+                        };
+                    });
+
+                    if (!isPressed) {
+                        return;
+                    } else {
+                        gamepadHandler(button);
+                    };
+                };
+
+                setInterval(update, 100);
+            });
+        };
+
+        const checkGamepadSupport = () => {
+            return 'getGamepads' in window.navigator
+        };
+
+        const gamepadHandler = (button) => {
+            switch (button) {
+                case 3:
+                    clearInterval(this.timerInterval);
+                    this._init();
+                    break;
+                case 12:
+                    this._move('Up');
+                    break;
+                case 13:
+                    this._move('Down');
+                    break;
+                case 14:
+                    this._move('Left');
+                    break;
+                case 15:
+                    this._move('Right');
+                    break;
+                default:
+                    break;
+            };
+        };
+
+        addGamepad();
     };
 };
 
