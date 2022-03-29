@@ -209,7 +209,7 @@ class Game {
         this._addNewTile();
 
         this._countScore();
-        this.interval = setInterval(this._draw, 1000);
+        this.timerInterval = setInterval(this._draw, 1000);
     };
 
     _draw = () => {
@@ -390,8 +390,15 @@ class Game {
                 this._move('Left');
             } else if (e.code === 'ArrowRight' || e.code === 'KeyD') {
                 this._move('Right');
+            } else if (e.code === 'KeyR') {
+                clearInterval(this.timerInterval);
+                this._init();
             };
         });
+    };
+
+    _gamepad = () => {
+
     };
 };
 
