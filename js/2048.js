@@ -4,10 +4,6 @@
 
 'use strict';
 
-/* ------- */
-/* SUPPORT */
-/* ------- */
-
 class Support {
 
     constructor() { };
@@ -16,10 +12,6 @@ class Support {
         return Math.floor(Math.random() * (max - min) + min);
     };
 };
-
-/* -------------- */
-/* CONFIGURATIONS */
-/* -------------- */
 
 class Configurations {
 
@@ -32,10 +24,6 @@ class Configurations {
         this.TIMER_WRAPPER = document.querySelector('.game-2048__timer');
     };
 };
-
-/* ----- */
-/* SCORE */
-/* ----- */
 
 class Score {
 
@@ -57,10 +45,6 @@ class Score {
         this.scoreWrapper.innerText = `Your Score: ${this.balance}`;
     };
 };
-
-/* ----- */
-/* TIMER */
-/* ----- */
 
 class Timer {
 
@@ -100,10 +84,6 @@ class Timer {
     };
 };
 
-/* --- */
-/* MAP */
-/* --- */
-
 class Map {
 
     constructor() {
@@ -135,20 +115,11 @@ class Map {
     };
 };
 
-/* -------------- */
-/* TILE FACTORIES */
-/* -------------- */
-
 class TileFactory {
     createTile = () => {
         return new Tile();
     };
 };
-
-/* ----- */
-/* TILES */
-/* ----- */
-
 
 class Tile {
 
@@ -184,10 +155,6 @@ class Tile {
         document.querySelector(`[x = "${this.x}"][y = "${this.y}"]`).innerText = this.cost;
     };
 };
-
-/* ---- */
-/* GAME */
-/* ---- */
 
 class Game {
 
