@@ -375,6 +375,7 @@ class Game {
             window.addEventListener('gamepadconnected', () => {
 
                 const update = () => {
+                    keyPressInterval += 10;
                     let gamepads = navigator.getGamepads();
                     let isPressed = false;
                     let button;
@@ -393,7 +394,7 @@ class Game {
                     };
                 };
 
-                setInterval(update, 100);
+                setInterval(update, 10);
             });
         };
 
@@ -402,28 +403,34 @@ class Game {
         };
 
         const gamepadHandler = (button) => {
-            switch (button) {
-                case 3:
-                    clearInterval(this.timerInterval);
-                    this._init();
-                    break;
-                case 12:
-                    this._move('Up');
-                    break;
-                case 13:
-                    this._move('Down');
-                    break;
-                case 14:
-                    this._move('Left');
-                    break;
-                case 15:
-                    this._move('Right');
-                    break;
-                default:
-                    break;
+
+            if (keyPressInterval >= 250) {
+                switch (button) {
+                    case 3:
+                        clearInterval(this.timerInterval);
+                        this._init();
+                        break;
+                    case 12:
+                        this._move('Up');
+                        break;
+                    case 13:
+                        this._move('Down');
+                        break;
+                    case 14:
+                        this._move('Left');
+                        break;
+                    case 15:
+                        this._move('Right');
+                        break;
+                    default:
+                        break;
+                };
+
+                keyPressInterval = 0;
             };
         };
 
+        let keyPressInterval = 0;
         addGamepad();
     };
 };
