@@ -27,10 +27,8 @@ class Configurations {
 
 class Score {
 
-    constructor() {
-        this.configurations = new Configurations();
-
-        this.scoreWrapper = this.configurations.SCORE_WRAPPER;
+    constructor(wrapper) {
+        this.scoreWrapper = wrapper;
         this.balance = 0;
 
         this.draw();
@@ -48,10 +46,8 @@ class Score {
 
 class Timer {
 
-    constructor() {
-        this.configurations = new Configurations();
-
-        this.timerWrapper = this.configurations.TIMER_WRAPPER;
+    constructor(wrapper) {
+        this.timerWrapper = wrapper;
         this.time = '00:00';
 
         this.timeStart = Date.now();
@@ -86,12 +82,10 @@ class Timer {
 
 class Map {
 
-    constructor() {
-        this.configurations = new Configurations();
-
-        this.container = this.configurations.MAP_WRAPPER;
-        this.width = this.configurations.MAP_WIDTH;
-        this.height = this.configurations.MAP_HEIGHT;
+    constructor(wrapper, width, height) {
+        this.container = wrapper;
+        this.width = width;
+        this.height = height;
 
         this.draw();
     };
@@ -170,9 +164,11 @@ class Game {
                       [0, 0, 0, 0],
                       [0, 0, 0, 0]];
 
-        this.map = new Map();
-        this.score = new Score();
-        this.timer = new Timer();
+        this.configurations = new Configurations();
+
+        this.map = new Map(this.configurations.MAP_WRAPPER, this.configurations.MAP_WIDTH, this.configurations.MAP_HEIGHT);
+        this.score = new Score(this.configurations.SCORE_WRAPPER);
+        this.timer = new Timer(this.configurations.TIMER_WRAPPER);
 
         this._addNewTile();
 
@@ -210,7 +206,9 @@ class Game {
     };
 
     _emptyCellsChecker = () => {
+
         let count = 0;
+
         for (let x = 0; x <= 3; x++) {
             for (let y = 0; y <= 3; y++) {
                 if (this.tiles[x][y] === 0) {
@@ -218,10 +216,12 @@ class Game {
                 };
             };
         };
+
         return count;
     };
 
     _addNewTile = () => {
+
         if (this._emptyCellsChecker() === 0) {
             return;
         };
@@ -229,9 +229,11 @@ class Game {
         this.factory = new TileFactory();
         let newTile = this.factory.createTile();
         this.tiles[newTile.x][newTile.y] = newTile;
+
     };
 
     _updateCoordinates = () => {
+
         for (let x = 0; x <= 3; x++) {
             for (let y = 0; y <= 3; y++) {
                 if (this.tiles[x][y] !== 0) {
@@ -240,6 +242,7 @@ class Game {
                 };
             };
         };
+
     };
 
     _shrink = (line) => {
