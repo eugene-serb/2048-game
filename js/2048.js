@@ -218,7 +218,7 @@ class Game {
         };
 
         if (movements === 0) {
-            this.configurations.DIALOG_WRAPPER.innerText = 'Game Over! You lose!';
+            this.configurations.DIALOG_WRAPPER.innerText = 'Game Over!';
         };
     };
 
