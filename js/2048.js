@@ -153,9 +153,11 @@ class Tile {
 class Game {
 
     constructor() {
-        this._init();
-        this._controls();
+        this._keyboard();
         this._gamepads();
+        this._touches();
+
+        this._init();
     };
 
     _init = () => {
@@ -351,7 +353,7 @@ class Game {
         this._countScore();
     };
 
-    _controls = () => {
+    _keyboard = () => {
         window.addEventListener('keydown', (e) => {
             if (e.code === 'ArrowUp' || e.code === 'KeyW') {
                 this._move('Up');
@@ -435,6 +437,40 @@ class Game {
 
         let keyPressInterval = 0;
         addGamepad();
+    };
+
+    _touches = () => {
+
+        let startX = 0;
+        let startY = 0;
+        let endX = 0;
+        let endY = 0;
+
+        window.addEventListener('touchstart', (event) => {
+            startX = event.touches[0].pageX;
+            startY = event.touches[0].pageY;
+        });
+
+        window.addEventListener('touchend', (event) => {
+            endX = event.changedTouches[0].pageX;
+            endY = event.changedTouches[0].pageY;
+
+            let x = endX - startX;
+            let y = endY - startY;
+
+            let absX = Math.abs(x) > Math.abs(y);
+            let absY = Math.abs(y) > Math.abs(x);
+
+            if (x > 0 && absX) {
+                this._move('Right');
+            } else if (x < 0 && absX) {
+                this._move('Left');
+            } else if (y > 0 && absY) {
+                this._move('Down');
+            } else if (y < 0 && absY) {
+                this._move('Up');
+            };
+        });
     };
 };
 
