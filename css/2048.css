@@ -23,6 +23,13 @@
     margin-block-end: 32px;
 }
 
+.game-2048__dialog {
+    display: block;
+    text-align: center;
+    font-size: 24px;
+    margin-block-end: 8px;
+}
+
 .game-2048__banner {
     display: flex;
     flex-direction: row;
@@ -173,6 +180,11 @@
         width: 440px;
         height: 440px;
         margin-block-end: 32px;
+    }
+
+    .game-2048__dialog {
+        font-size: 32px;
+        margin-block-end: 16px;
     }
 
     .map {

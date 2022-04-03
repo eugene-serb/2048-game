@@ -22,6 +22,7 @@ class Configurations {
         this.MAP_WRAPPER = document.querySelector('.game-2048__map-wrapper');
         this.SCORE_WRAPPER = document.querySelector('.game-2048__score');
         this.TIMER_WRAPPER = document.querySelector('.game-2048__timer');
+        this.DIALOG_WRAPPER = document.querySelector('.game-2048__dialog');
     };
 };
 
@@ -192,6 +193,35 @@ class Game {
         };
     };
 
+    _progressChecker = () => {
+
+        let movements = 0;
+
+        for (let x = 0; x <= 3; x++) {
+            for (let y = 0; y <= 3; y++) {
+                if (this.tiles[x][y] === 0) {
+                    movements++;
+                };
+
+                if (y < 3) {
+                    if (this.tiles[x][y].cost === this.tiles[x][y + 1].cost) {
+                        movements++;
+                    };
+                };
+
+                if (x < 3) {
+                    if (this.tiles[x][y].cost === this.tiles[x + 1][y].cost) {
+                        movements++;
+                    };
+                };
+            };
+        };
+
+        if (movements === 0) {
+            this.configurations.DIALOG_WRAPPER.innerText = 'Game Over! You lose!';
+        };
+    };
+
     _countScore = () => {
 
         let totalScore = 0;
@@ -351,6 +381,7 @@ class Game {
 
         this._draw();
         this._countScore();
+        this._progressChecker();
     };
 
     _keyboard = () => {
