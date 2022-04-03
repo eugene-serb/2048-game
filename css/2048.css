@@ -19,7 +19,7 @@
 }
 
 .game-2048__map-wrapper {
-    margin-block-end: 32px;
+    margin-block-end: 16px;
 }
 
 .game-2048__banner {
@@ -27,13 +27,13 @@
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-around;
-    font-size: 24px;
-    margin-block-end: 16px;
+    font-size: 18px;
+    margin-block-end: 8px;
 }
 
 .game-2048__rules {
     text-align: center;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 /* ---- */
@@ -179,6 +179,19 @@
     .game-2048 {
         width: 540px;
         height: 540px;
+    }
+
+    .game-2048__map-wrapper {
+        margin-block-end: 32px;
+    }
+
+    .game-2048__banner {
+        font-size: 24px;
+        margin-block-end: 16px;
+    }
+
+    .game-2048__rules {
+        font-size: 14px;
     }
 
     .map {
