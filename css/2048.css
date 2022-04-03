@@ -8,10 +8,6 @@
 /* INTERFACE */
 /* --------- */
 
-.no-reload {
-    overflow: hidden;
-}
-
 .game-2048 {
     margin: 0 auto;
     width: 240px;

@@ -153,20 +153,20 @@ class Tile {
 class Game {
 
     constructor() {
-        this._keyboard();
-        this._gamepads();
-        this._touches();
-
         this._init();
     };
 
     _init = () => {
+        this.configurations = new Configurations();
+
+        this._keyboard();
+        this._gamepads();
+        this._touches();
+
         this.tiles = [[0, 0, 0, 0],
                       [0, 0, 0, 0],
                       [0, 0, 0, 0],
                       [0, 0, 0, 0]];
-
-        this.configurations = new Configurations();
 
         this.map = new Map(this.configurations.MAP_WRAPPER, this.configurations.MAP_WIDTH, this.configurations.MAP_HEIGHT);
         this.score = new Score(this.configurations.SCORE_WRAPPER);
@@ -440,18 +440,17 @@ class Game {
     };
 
     _touches = () => {
-
         let startX = 0;
         let startY = 0;
         let endX = 0;
         let endY = 0;
 
-        window.addEventListener('touchstart', (event) => {
+        this.configurations.MAP_WRAPPER.addEventListener('touchstart', (event) => {
             startX = event.touches[0].pageX;
             startY = event.touches[0].pageY;
         });
 
-        window.addEventListener('touchend', (event) => {
+        this.configurations.MAP_WRAPPER.addEventListener('touchend', (event) => {
             endX = event.changedTouches[0].pageX;
             endY = event.changedTouches[0].pageY;
 
