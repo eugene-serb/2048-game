@@ -471,10 +471,6 @@ class Game {
                 this._move('Up');
             };
         });
-
-        window.addEventListener('touchmove', (event) => {
-            event.preventDefault();
-        });
     };
 };
 
