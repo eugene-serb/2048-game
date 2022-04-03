@@ -446,15 +446,11 @@ class Game {
         let endY = 0;
 
         this.configurations.MAP_WRAPPER.addEventListener('touchstart', (event) => {
-            event.preventDefault();
-
             startX = event.touches[0].pageX;
             startY = event.touches[0].pageY;
         });
 
         this.configurations.MAP_WRAPPER.addEventListener('touchend', (event) => {
-            event.preventDefault();
-
             endX = event.changedTouches[0].pageX;
             endY = event.changedTouches[0].pageY;
 
@@ -473,10 +469,6 @@ class Game {
             } else if (y < 0 && absY) {
                 this._move('Up');
             };
-        });
-
-        this.configurations.MAP_WRAPPER.addEventListener('touchmove', (event) => {
-            event.preventDefault();
         });
     };
 };
