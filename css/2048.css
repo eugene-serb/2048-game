@@ -11,7 +11,6 @@
 .game-2048 {
     margin: 0 auto;
     width: 240px;
-    height: 240px;
 }
 
 .game-2048__header {
@@ -19,7 +18,16 @@
 }
 
 .game-2048__map-wrapper {
+    width: 240px;
+    height: 240px;
     margin-block-end: 32px;
+}
+
+.game-2048__dialog {
+    display: block;
+    text-align: center;
+    font-size: 24px;
+    margin-block-end: 8px;
 }
 
 .game-2048__banner {
@@ -27,13 +35,13 @@
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-around;
-    font-size: 24px;
-    margin-block-end: 16px;
+    font-size: 18px;
+    margin-block-end: 8px;
 }
 
 .game-2048__rules {
     text-align: center;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 /* ---- */
@@ -55,16 +63,6 @@
     width: 60px;
     height: 60px;
     border: 1px solid #FFFFFF;
-}
-
-@media (prefers-color-scheme: dark) {
-    .map {
-        background-color: var(--color-a-monocromatic-d);
-    }
-
-    .cell {
-        border: 1px solid var(--color-background);
-    }
 }
 
 /* ----- */
@@ -133,10 +131,29 @@
     color: #faf8ef;
 }
 
+/* ----- */
+/* MEDIA */
+/* ----- */
+
+@media (prefers-color-scheme: dark) {
+    .map {
+        background-color: var(--color-a-monocromatic-d);
+    }
+
+    .cell {
+        border: 1px solid var(--color-background);
+    }
+}
+
 @media only screen and (min-width: 380px) {
     .game-2048 {
         width: 340px;
+    }
+
+    .game-2048__map-wrapper {
+        width: 340px;
         height: 340px;
+        margin-block-end: 32px;
     }
 
     .map {
@@ -157,7 +174,17 @@
 @media only screen and (min-width: 480px) {
     .game-2048 {
         width: 440px;
+    }
+
+    .game-2048__map-wrapper {
+        width: 440px;
         height: 440px;
+        margin-block-end: 32px;
+    }
+
+    .game-2048__dialog {
+        font-size: 32px;
+        margin-block-end: 16px;
     }
 
     .map {
@@ -174,7 +201,21 @@
 @media only screen and (min-width: 580px) {
     .game-2048 {
         width: 540px;
+    }
+
+    .game-2048__banner {
+        font-size: 24px;
+        margin-block-end: 16px;
+    }
+
+    .game-2048__rules {
+        font-size: 16px;
+    }
+
+    .game-2048__map-wrapper {
+        width: 540px;
         height: 540px;
+        margin-block-end: 32px;
     }
 
     .map {
