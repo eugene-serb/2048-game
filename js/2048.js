@@ -173,10 +173,12 @@ class Game {
         this.score = new Score(this.configurations.SCORE_WRAPPER);
         this.timer = new Timer(this.configurations.TIMER_WRAPPER);
 
+        this.configurations.DIALOG_WRAPPER.innerText = 'Get 2048!';
+
         this._addNewTile();
 
         this._countScore();
-        this.timerInterval = setInterval(this._draw, 1000);
+        this.interval = setInterval(this._draw, 1000);
     };
 
     _draw = () => {
@@ -219,7 +221,7 @@ class Game {
 
         if (movements === 0) {
             this.configurations.DIALOG_WRAPPER.innerText = 'Game Over!';
-            clearInterval(this.timerInterval);
+            clearInterval(this.interval);
         };
     };
 
@@ -396,7 +398,7 @@ class Game {
             } else if (e.code === 'ArrowRight' || e.code === 'KeyD') {
                 this._move('Right');
             } else if (e.code === 'KeyR') {
-                clearInterval(this.timerInterval);
+                clearInterval(this.interval);
                 this._init();
             };
         });
@@ -431,7 +433,7 @@ class Game {
                     };
                 };
 
-                setInterval(update, 10);
+                gamepadInterval = setInterval(update, 10);
             });
         };
 
@@ -440,11 +442,10 @@ class Game {
         };
 
         const gamepadHandler = (button) => {
-
             if (keyPressInterval >= 250) {
                 switch (button) {
                     case 3:
-                        clearInterval(this.timerInterval);
+                        clearInterval(this.interval);
                         this._init();
                         break;
                     case 12:
@@ -462,11 +463,11 @@ class Game {
                     default:
                         break;
                 };
-
                 keyPressInterval = 0;
             };
         };
 
+        let gamepadInterval = 0;
         let keyPressInterval = 0;
         addGamepad();
     };
