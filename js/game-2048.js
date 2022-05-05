@@ -5,16 +5,14 @@
 'use strict';
 
 class Support {
-
-    constructor() { };
-
-    getRandomInteger = (min, max) => {
-        return Math.floor(Math.random() * (max - min) + min);
+    constructor() {
+        this.getRandomInteger = (min, max) => {
+            return Math.floor(Math.random() * (max - min) + min);
+        };
     };
 };
 
 class Configurations {
-
     constructor() {
         this.MAP_WIDTH = 4;
         this.MAP_HEIGHT = 4;
@@ -27,7 +25,6 @@ class Configurations {
 };
 
 class Score {
-
     constructor(wrapper) {
         this.scoreWrapper = wrapper;
         this.balance = 0;
@@ -39,14 +36,12 @@ class Score {
         this.balance = n;
         this.draw();
     };
-
     draw = () => {
         this.scoreWrapper.innerText = `Your Score: ${this.balance}`;
     };
 };
 
 class Timer {
-
     constructor(wrapper) {
         this.timerWrapper = wrapper;
         this.time = '00:00';
@@ -82,7 +77,6 @@ class Timer {
 };
 
 class Map {
-
     constructor(wrapper, width, height) {
         this.container = wrapper;
         this.width = width;
@@ -117,7 +111,6 @@ class TileFactory {
 };
 
 class Tile {
-
     constructor() {
         this.support = new Support();
 
@@ -144,7 +137,6 @@ class Tile {
         this.x = +emptyCell[randomInteger].getAttribute('x');
         this.y = +emptyCell[randomInteger].getAttribute('y');
     };
-
     draw = () => {
         document.querySelector(`[x = "${this.x}"][y = "${this.y}"]`).classList.add('tile', 'tile-' + this.cost);
         document.querySelector(`[x = "${this.x}"][y = "${this.y}"]`).innerText = this.cost;
@@ -152,7 +144,6 @@ class Tile {
 };
 
 class Game {
-
     constructor() {
         this._init();
     };
@@ -180,7 +171,6 @@ class Game {
         this._countScore();
         this.interval = setInterval(this._draw, 1000);
     };
-
     _draw = () => {
         this.map.draw();
         this.score.draw();
@@ -224,7 +214,6 @@ class Game {
             clearInterval(this.interval);
         };
     };
-
     _countScore = () => {
 
         let totalScore = 0;
@@ -239,7 +228,6 @@ class Game {
 
         this.score.update(totalScore);
     };
-
     _emptyCellsChecker = () => {
 
         let count = 0;
@@ -254,7 +242,6 @@ class Game {
 
         return count;
     };
-
     _addNewTile = () => {
 
         if (this._emptyCellsChecker() === 0) {
@@ -266,7 +253,6 @@ class Game {
         this.tiles[newTile.x][newTile.y] = newTile;
 
     };
-
     _updateCoordinates = () => {
 
         for (let x = 0; x <= 3; x++) {
@@ -279,7 +265,6 @@ class Game {
         };
 
     };
-
     _shrink = (line) => {
 
         for (let i = 0; i < line.length; i++) {
@@ -308,7 +293,6 @@ class Game {
 
         return line;
     };
-
     _move = (direction) => {
         let countChanges = 0;
 
@@ -403,7 +387,6 @@ class Game {
             };
         });
     };
-
     _gamepads = () => {
 
         const addGamepad = () => {
@@ -471,7 +454,6 @@ class Game {
         let keyPressInterval = 0;
         addGamepad();
     };
-
     _touches = () => {
         let startX = 0;
         let startY = 0;
