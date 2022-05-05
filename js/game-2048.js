@@ -140,7 +140,6 @@ class Game {
         this.$DIALOG_WRAPPER.innerHTML = 'Get 2048!';
         this.interval = setInterval(this.draw, 1000);
     };
-
     draw = () => {
         this.map.draw();
         this.score.draw();
@@ -197,7 +196,6 @@ class Game {
     };
     #progressChecker = () => {
         let movements = 0;
-
         for (let x = 0; x < this.MATRIX_WIDTH; x++) {
             for (let y = 0; y < this.MATRIX_HEIGHT; y++) {
                 if (this.tiles[x][y] === 0) {
@@ -215,9 +213,8 @@ class Game {
                 };
             };
         };
-
         if (movements === 0) {
-            this.configurations.DIALOG_WRAPPER.innerText = 'Game Over!';
+            this.$DIALOG_WRAPPER.innerText = 'Game Over!';
             clearInterval(this.interval);
         };
     };
