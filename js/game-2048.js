@@ -349,7 +349,7 @@ class Game {
     };
     #gamepads = () => {
         const checkGamepadSupport = () => {
-            return 'getGamepads' in window.navigator
+            return 'getGamepads' in window.navigator;
         };
         const addGamepad = () => {
             if (!checkGamepadSupport()) {
