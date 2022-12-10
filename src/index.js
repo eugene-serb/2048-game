@@ -1,116 +1,10 @@
 'use strict';
 
-class Support {
-  constructor() {
-    this.getRandomInteger = (min, max) => {
-      return Math.floor(Math.random() * (max - min) + min);
-    };
-  }
-}
-
-class Score {
-  constructor(container) {
-    this.$container = container;
-    this.balance = 0;
-    this.draw();
-  }
-
-  update = (n) => {
-    this.balance = n;
-    this.draw();
-  };
-  draw = () => {
-    this.$container.innerText = `Your Score: ${this.balance}`;
-  };
-}
-
-class Timer {
-  constructor(container) {
-    this.$container = container;
-    this.time = '00:00';
-
-    this.timeStart = Date.now();
-    this.timeNow = this.timeStart;
-
-    this.draw();
-  }
-
-  draw() {
-    this.#calculate();
-    this.$container.innerText = `Round Time: ${this.time}`;
-  }
-  #calculate() {
-    this.timeNow = Date.now();
-    let delta = this.timeNow - this.timeStart;
-
-    let seconds = Math.floor(delta / 1000);
-    let minutes = 0;
-
-    if (seconds >= 60) {
-      minutes = Math.floor(seconds / 60);
-      seconds = seconds - (minutes * 60);
-    }
-
-    minutes = (minutes < 10) ? `0${minutes}` : `${minutes}`;
-    seconds = (seconds < 10) ? `0${seconds}` : `${seconds}`;
-
-    this.time = `${minutes}:${seconds}`;
-  }
-}
-
-class Tile {
-  constructor(x, y, cost) {
-    this.x = x;
-    this.y = y;
-    this.cost = cost;
-
-    this.draw();
-  }
-
-  draw = () => {
-    document.querySelector(`[x = "${this.x}"][y = "${this.y}"]`).classList.add('tile', 'tile-' + this.cost);
-    document.querySelector(`[x = "${this.x}"][y = "${this.y}"]`).innerText = this.cost;
-  };
-}
-
-class Map {
-  constructor(container, width, height) {
-    this.$container = container;
-    this.matrix_width = width;
-    this.matrix_height = height;
-
-    this.matrix = this.generateMatrix(this.matrix_width, this.matrix_height);
-    this.draw();
-  }
-
-  generateMatrix = (matrix_width, matrix_height) => {
-    let matrix = new Array();
-    for (let x = 0; x < matrix_width; x++) {
-      matrix[x] = new Array();
-      for (let y = 0; y < matrix_height; y++) {
-        matrix[x][y] = 0;
-      }
-    }
-    return matrix;
-  };
-  draw = () => {
-    this.$container.innerHTML = '';
-
-    let $map = document.createElement('div');
-    $map.classList.add('map');
-    this.$container.appendChild($map);
-
-    for (let y = this.matrix_height - 1; y >= 0; y--) {
-      for (let x = 0; x < this.matrix_width; x++) {
-        let $cell = document.createElement('div');
-        $cell.classList.add('cell');
-        $cell.setAttribute('x', x);
-        $cell.setAttribute('y', y);
-        $map.appendChild($cell);
-      }
-    }
-  };
-}
+import Support from '@/support.js';
+import Score from '@/score.js';
+import Timer from '@/timer.js';
+import Tile from '@/tile.js';
+import Map from '@/map.js';
 
 class Game {
   constructor() {
@@ -136,6 +30,7 @@ class Game {
     this.$DIALOG_WRAPPER.innerHTML = 'Get 2048!';
     this.interval = setInterval(this.draw, 1000);
   };
+
   draw = () => {
     this.map.draw();
     this.score.draw();
@@ -170,6 +65,7 @@ class Game {
 
     this.tiles[x][y] = new Tile(x, y, cost);
   };
+
   #emptyCellsChecker = () => {
     let count = 0;
     for (let x = 0; x < this.MATRIX_WIDTH; x++) {
@@ -179,6 +75,7 @@ class Game {
     }
     return count;
   };
+
   #countScore = () => {
     let totalScore = 0;
     for (let x = 0; x < this.MATRIX_WIDTH; x++) {
@@ -190,6 +87,7 @@ class Game {
     }
     this.score.update(totalScore);
   };
+
   #progressChecker = () => {
     let movements = 0;
     for (let x = 0; x < this.MATRIX_WIDTH; x++) {
@@ -214,6 +112,7 @@ class Game {
       clearInterval(this.interval);
     }
   };
+
   #updateCoordinates = () => {
     for (let x = 0; x < this.MATRIX_WIDTH; x++) {
       for (let y = 0; y < this.MATRIX_HEIGHT; y++) {
@@ -249,6 +148,7 @@ class Game {
     }
     return line;
   };
+
   #move = (direction) => {
     let countChanges = 0;
 
@@ -343,6 +243,7 @@ class Game {
       }
     });
   };
+
   #gamepads = () => {
     const checkGamepadSupport = () => {
       return 'getGamepads' in window.navigator;
@@ -372,6 +273,7 @@ class Game {
         gamepadInterval = setInterval(update, 10);
       });
     };
+
     const gamepadHandler = (button) => {
       if (keyPressInterval >= 250) {
         switch (button) {
@@ -397,11 +299,14 @@ class Game {
         keyPressInterval = 0;
       }
     };
+
     // eslint-disable-next-line
     let gamepadInterval = 0;
     let keyPressInterval = 0;
+
     addGamepad();
   };
+
   #touches = () => {
     let startX = 0;
     let startY = 0;
@@ -438,12 +343,14 @@ class Game {
     this.MATRIX_WIDTH = 4;
     this.MATRIX_HEIGHT = 4;
   };
+
   #DOMs = () => {
     this.$MAP_WRAPPER = document.querySelector('.game-2048__map-wrapper');
     this.$SCORE_WRAPPER = document.querySelector('.game-2048__score');
     this.$TIMER_WRAPPER = document.querySelector('.game-2048__timer');
     this.$DIALOG_WRAPPER = document.querySelector('.game-2048__dialog');
   };
+
   #eventListeners = () => {
     this.#keyboard();
     this.#gamepads();
