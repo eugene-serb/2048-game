@@ -1,7 +1,3 @@
-/* --------- */
-/* 2048 GAME */
-/* --------- */
-
 'use strict';
 
 class Support {
@@ -9,15 +5,15 @@ class Support {
     this.getRandomInteger = (min, max) => {
       return Math.floor(Math.random() * (max - min) + min);
     };
-  };
-};
+  }
+}
 
 class Score {
   constructor(container) {
     this.$container = container;
     this.balance = 0;
     this.draw();
-  };
+  }
 
   update = (n) => {
     this.balance = n;
@@ -26,7 +22,7 @@ class Score {
   draw = () => {
     this.$container.innerText = `Your Score: ${this.balance}`;
   };
-};
+}
 
 class Timer {
   constructor(container) {
@@ -37,12 +33,12 @@ class Timer {
     this.timeNow = this.timeStart;
 
     this.draw();
-  };
+  }
 
   draw() {
     this.#calculate();
     this.$container.innerText = `Round Time: ${this.time}`;
-  };
+  }
   #calculate() {
     this.timeNow = Date.now();
     let delta = this.timeNow - this.timeStart;
@@ -53,14 +49,14 @@ class Timer {
     if (seconds >= 60) {
       minutes = Math.floor(seconds / 60);
       seconds = seconds - (minutes * 60);
-    };
+    }
 
     minutes = (minutes < 10) ? `0${minutes}` : `${minutes}`;
     seconds = (seconds < 10) ? `0${seconds}` : `${seconds}`;
 
     this.time = `${minutes}:${seconds}`;
-  };
-};
+  }
+}
 
 class Tile {
   constructor(x, y, cost) {
@@ -69,13 +65,13 @@ class Tile {
     this.cost = cost;
 
     this.draw();
-  };
+  }
 
   draw = () => {
     document.querySelector(`[x = "${this.x}"][y = "${this.y}"]`).classList.add('tile', 'tile-' + this.cost);
     document.querySelector(`[x = "${this.x}"][y = "${this.y}"]`).innerText = this.cost;
   };
-};
+}
 
 class Map {
   constructor(container, width, height) {
@@ -85,7 +81,7 @@ class Map {
 
     this.matrix = this.generateMatrix(this.matrix_width, this.matrix_height);
     this.draw();
-  };
+  }
 
   generateMatrix = (matrix_width, matrix_height) => {
     let matrix = new Array();
@@ -93,8 +89,8 @@ class Map {
       matrix[x] = new Array();
       for (let y = 0; y < matrix_height; y++) {
         matrix[x][y] = 0;
-      };
-    };
+      }
+    }
     return matrix;
   };
   draw = () => {
@@ -111,10 +107,10 @@ class Map {
         $cell.setAttribute('x', x);
         $cell.setAttribute('y', y);
         $map.appendChild($cell);
-      };
-    };
+      }
+    }
   };
-};
+}
 
 class Game {
   constructor() {
@@ -125,7 +121,7 @@ class Game {
     this.support = new Support();
 
     this.init();
-  };
+  }
 
   init = () => {
     this.map = new Map(this.$MAP_WRAPPER, this.MATRIX_WIDTH, this.MATRIX_HEIGHT);
@@ -149,9 +145,9 @@ class Game {
       for (let y = 0; y <= 3; y++) {
         if (this.tiles[x][y] !== 0) {
           this.tiles[x][y].draw();
-        };
-      };
-    };
+        }
+      }
+    }
   };
 
   #addNewTile = () => {
@@ -163,9 +159,9 @@ class Game {
       for (let y = 0; y < this.MATRIX_HEIGHT; y++) {
         if (this.tiles[x][y] === 0) {
           emptyCells.push([x, y]);
-        };
-      };
-    };
+        }
+      }
+    }
 
     let random = this.support.getRandomInteger(0, emptyCells.length);
     let cost = 2 * this.support.getRandomInteger(1, 3);
@@ -179,8 +175,8 @@ class Game {
     for (let x = 0; x < this.MATRIX_WIDTH; x++) {
       for (let y = 0; y < this.MATRIX_HEIGHT; y++) {
         if (this.tiles[x][y] === 0) count++;
-      };
-    };
+      }
+    }
     return count;
   };
   #countScore = () => {
@@ -189,9 +185,9 @@ class Game {
       for (let y = 0; y < this.MATRIX_HEIGHT; y++) {
         if (this.tiles[x][y] !== 0) {
           totalScore += this.tiles[x][y].cost;
-        };
-      };
-    };
+        }
+      }
+    }
     this.score.update(totalScore);
   };
   #progressChecker = () => {
@@ -200,23 +196,23 @@ class Game {
       for (let y = 0; y < this.MATRIX_HEIGHT; y++) {
         if (this.tiles[x][y] === 0) {
           movements++;
-        };
+        }
         if (y < 3) {
           if (this.tiles[x][y].cost === this.tiles[x][y + 1].cost) {
             movements++;
-          };
-        };
+          }
+        }
         if (x < 3) {
           if (this.tiles[x][y].cost === this.tiles[x + 1][y].cost) {
             movements++;
-          };
-        };
-      };
-    };
+          }
+        }
+      }
+    }
     if (movements === 0) {
       this.$DIALOG_WRAPPER.innerText = 'Game Over!';
       clearInterval(this.interval);
-    };
+    }
   };
   #updateCoordinates = () => {
     for (let x = 0; x < this.MATRIX_WIDTH; x++) {
@@ -224,9 +220,9 @@ class Game {
         if (this.tiles[x][y] !== 0) {
           this.tiles[x][y].x = x;
           this.tiles[x][y].y = y;
-        };
-      };
-    };
+        }
+      }
+    }
   };
 
   #shrink = (line) => {
@@ -234,23 +230,23 @@ class Game {
       if (line[i] === 0) {
         line.splice(i, 1);
         i--;
-      };
-    };
+      }
+    }
     if (line.length > 1) {
       line.forEach((item, index) => {
         if (line[index - 1] !== undefined) {
           if (item.cost === line[index - 1].cost) {
             line[index - 1].cost *= 2;
             line.splice(index, 1);
-          };
-        };
+          }
+        }
       });
-    };
+    }
     for (let i = 1; i <= 4; i++) {
       if (line.length != 4) {
         line.push(0);
-      };
-    };
+      }
+    }
     return line;
   };
   #move = (direction) => {
@@ -265,66 +261,66 @@ class Game {
           for (let y = 3; y >= 0; y--) {
             mutableLine.push(this.tiles[x][y]);
             originalLine.push(this.tiles[x][y]);
-          };
+          }
           break;
         case 'Down':
           for (let y = 0; y <= 3; y++) {
             mutableLine.push(this.tiles[x][y]);
             originalLine.push(this.tiles[x][y]);
-          };
+          }
           break;
         case 'Left':
           for (let y = 0; y <= 3; y++) {
             mutableLine.push(this.tiles[y][x]);
             originalLine.push(this.tiles[y][x]);
-          };
+          }
           break;
         case 'Right':
           for (let y = 3; y >= 0; y--) {
             mutableLine.push(this.tiles[y][x]);
             originalLine.push(this.tiles[y][x]);
-          };
+          }
           break;
-      };
+      }
 
       mutableLine = this.#shrink(mutableLine);
 
       for (let i = 0; i <= mutableLine.length; i++) {
         if (mutableLine[i] !== originalLine[i]) {
           countChanges++;
-        };
-      };
+        }
+      }
 
       switch (direction) {
         case 'Up':
           for (let y = 3; y >= 0; y--) {
             this.tiles[x][y] = mutableLine.shift();
-          };
+          }
           break;
         case 'Down':
           for (let y = 0; y <= 3; y++) {
             this.tiles[x][y] = mutableLine.shift();
-          };
+          }
           break;
         case 'Left':
           for (let y = 0; y <= 3; y++) {
             this.tiles[y][x] = mutableLine.shift();
-          };
+          }
           break;
         case 'Right':
           for (let y = 3; y >= 0; y--) {
             this.tiles[y][x] = mutableLine.shift();
-          };
+          }
           break;
-      };
-    };
+      }
+    }
 
     this.#updateCoordinates();
     this.draw();
 
     if (countChanges > 0) {
       this.#addNewTile();
-    };
+    }
 
     this.draw();
     this.#countScore();
@@ -344,7 +340,7 @@ class Game {
       } else if (e.code === 'KeyR') {
         clearInterval(this.interval);
         this.init();
-      };
+      }
     });
   };
   #gamepads = () => {
@@ -354,7 +350,7 @@ class Game {
     const addGamepad = () => {
       if (!checkGamepadSupport()) {
         return;
-      };
+      }
       window.addEventListener('gamepadconnected', () => {
         const update = () => {
           keyPressInterval += 10;
@@ -365,13 +361,13 @@ class Game {
             if (item.value === 1) {
               button = index;
               isPressed = true;
-            };
+            }
           });
           if (!isPressed) {
             return;
           } else {
             gamepadHandler(button);
-          };
+          }
         };
         gamepadInterval = setInterval(update, 10);
       });
@@ -397,11 +393,11 @@ class Game {
             break;
           default:
             break;
-        };
+        }
         keyPressInterval = 0;
-      };
+      }
     };
-
+    // eslint-disable-next-line
     let gamepadInterval = 0;
     let keyPressInterval = 0;
     addGamepad();
@@ -434,7 +430,7 @@ class Game {
         this.#move('Down');
       } else if (y < 0 && absY) {
         this.#move('Up');
-      };
+      }
     });
   };
 
@@ -453,11 +449,6 @@ class Game {
     this.#gamepads();
     this.#touches();
   };
-};
+}
 
-/* -------------- */
-/* INITIALIZATION */
-/* -------------- */
-
-const GAME = new Game();
-
+new Game();
