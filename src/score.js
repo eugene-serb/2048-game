@@ -13,7 +13,7 @@ export class Score {
   };
 
   draw = () => {
-    this.$container.innerText = `Your Score: ${this.balance}`;
+    this.$container.innerText = `Score: ${this.balance}`;
   };
 }
 

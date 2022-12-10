@@ -1,6 +1,6 @@
 {
   "name": "2048-game",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "This is a simple browser implementation of a game 2048.",
   "keywords": [
     "2048-game",
