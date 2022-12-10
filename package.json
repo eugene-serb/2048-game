@@ -1,0 +1,28 @@
+{
+  "name": "2048-game",
+  "version": "1.0.0",
+  "description": "This is a simple browser implementation of a game 2048.",
+  "keywords": [
+    "2048-game",
+    "2048",
+    "game"
+  ],
+  "license": "GNU GPL v3",
+  "homepage": "https://eugene-serb.github.io/2048-game/",
+  "author": {
+    "name": "Eugene Serb",
+    "email": "eugene.serb@gmail.com",
+    "url": "https://eugene-serb.github.io/"
+  },
+  "private": "true",
+  "scripts": {
+    "test": "exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eugene-serb/2048-game.git"
+  },
+  "bugs": {
+    "url": "https://github.com/eugene-serb/2048-game/issues"
+  }
+}
