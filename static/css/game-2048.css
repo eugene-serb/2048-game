@@ -1,0 +1,177 @@
+@charset 'UTF-8';
+
+.game-2048 {
+  margin: 0 auto;
+  width: 200px;
+}
+
+.game-2048__map-wrapper {
+  width: 200px;
+  height: 200px;
+  margin-block-end: 32px;
+  background-color: var(--color-d);
+}
+
+.game-2048__dialog {
+  display: block;
+  text-align: center;
+  font-size: 12px;
+  margin-block-end: 8px;
+}
+
+.game-2048__banner {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  font-size: 12px;
+  margin-block-end: 8px;
+}
+
+.game-2048__rules {
+  text-align: left;
+  font-size: 10px;
+}
+
+.map {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: 0;
+}
+
+.cell {
+  border: 1px solid #FFFFFF;
+}
+
+.tile {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  font-size: 16px;
+}
+
+.tile-2 {
+  background-color: #eee4da;
+  color: #776e65;
+}
+
+.tile-4 {
+  background-color: #ede0c8;
+  color: #776e65;
+}
+
+.tile-8 {
+  background-color: #f2b179;
+  color: #faf8ef;
+}
+
+.tile-16 {
+  background-color: #f59563;
+  color: #faf8ef;
+}
+
+.tile-32 {
+  background-color: #f67c5f;
+  color: #faf8ef;
+}
+
+.tile-64 {
+  background-color: #f65e3b;
+  color: #faf8ef;
+}
+
+.tile-128 {
+  background-color: #edcf72;
+  color: #faf8ef;
+}
+
+.tile-256 {
+  background-color: #edcc61;
+  color: #faf8ef;
+}
+
+.tile-512 {
+  background-color: #edc850;
+  color: #faf8ef;
+}
+
+.tile-1024 {
+  background-color: #edc22e;
+  color: #faf8ef;
+}
+
+.tile-super {
+  background-color: gold;
+  color: #faf8ef;
+}
+
+@media (prefers-color-scheme: dark) {
+  .map {
+    background-color: var(--color-a-monocromatic-d);
+  }
+
+  .cell {
+    border: 1px solid var(--color-background);
+  }
+}
+
+@media only screen and (min-width: 340px) {
+  .game-2048 {
+    width: 300px;
+  }
+
+  .game-2048__map-wrapper {
+    width: 300px;
+    height: 300px;
+    margin-block-end: 32px;
+  }
+
+  .tile {
+    font-size: 24px;
+  }
+}
+
+@media only screen and (min-width: 440px) {
+  .game-2048 {
+    width: 400px;
+  }
+
+  .game-2048__map-wrapper {
+    width: 400px;
+    height: 400px;
+    margin-block-end: 32px;
+  }
+
+  .game-2048__dialog {
+    font-size: 16px;
+    margin-block-end: 16px;
+  }
+}
+
+@media only screen and (min-width: 540px) {
+  .game-2048 {
+    width: 500px;
+  }
+
+  .game-2048__banner {
+    font-size: 16px;
+    margin-block-end: 16px;
+  }
+
+  .game-2048__rules {
+    font-size: 10px;
+  }
+
+  .game-2048__map-wrapper {
+    width: 500px;
+    height: 500px;
+    margin-block-end: 32px;
+  }
+
+  .tile {
+    font-size: 32px;
+  }
+}
