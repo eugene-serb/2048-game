@@ -1,6 +1,6 @@
 {
   "name": "2048-game",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "This is a simple browser implementation of a game 2048.",
   "keywords": [
     "2048-game",
@@ -14,6 +14,13 @@
     "email": "eugene.serb@gmail.com",
     "url": "https://eugene-serb.github.io/"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eugene-serb/2048-game.git"
+  },
+  "bugs": {
+    "url": "https://github.com/eugene-serb/2048-game/issues"
+  },
   "private": "true",
   "scripts": {
     "start": "webpack --mode development --watch",
@@ -21,13 +28,6 @@
     "build:dev": "webpack --mode development",
     "lint": "eslint ./src/",
     "test": "exit 0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/eugene-serb/2048-game.git"
-  },
-  "bugs": {
-    "url": "https://github.com/eugene-serb/2048-game/issues"
   },
   "devDependencies": {
     "@babel/core": "^7.20.5",
@@ -37,7 +37,7 @@
     "babel-loader": "^9.1.0",
     "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^11.0.0",
-    "eslint": "^8.29.0",
+    "eslint": "^8.30.0",
     "eslint-cli": "^1.1.1",
     "eslint-webpack-plugin": "^3.2.0",
     "html-webpack-plugin": "^5.5.0",
