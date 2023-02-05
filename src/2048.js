@@ -1,37 +1,76 @@
 'use strict';
 
+import Gameloop from '@/gameloop.js';
+import Map from '@/map.js';
 import Score from '@/score.js';
 import Timer from '@/timer.js';
 import Tile from '@/tile.js';
-import Map from '@/map.js';
+import Keyboard from '@/keyboard.js';
+import Gamepad from '@/gamepad.js';
+import Touchscreen from '@/touchscreen.js';
 import { getRandomInteger } from '@/helpers.js';
 
-export class Game2048 {
+export class Game2048 extends Gameloop {
   constructor() {
-    this.#configurations();
-    this.#DOMs();
-    this.#eventListeners();
+    super();
 
-    this.init();
+    this.SPEED_RATE = (this._params?.speedRate &&
+      typeof this._params?.speedRate === 'number'
+    ) ? this._params?.speedRate : 1000;
+
+    this.#DOMs();
+    this.#configurations();
+    this.#eventListeners();
+    this.#init();
   }
 
-  init() {
+  moveToLeft() {
+    this.#move('Left');
+  }
+
+  moveToUp() {
+    this.#move('Up');
+  }
+
+  moveToRight() {
+    this.#move('Right');
+  }
+
+  moveToDown() {
+    this.#move('Down');
+  }
+
+  start() {
+    super.start();
+    this.interval = setInterval(this.#eventLoop.bind(this), this.SPEED_RATE);
+  }
+
+  clear() {
+    super.clear();
+    this.#init();
+  }
+
+  #init() {
+    this.$DIALOG.innerHTML = 'Get 2048!';
+
     this.map = new Map(this.$MAP, this.MATRIX_WIDTH, this.MATRIX_HEIGHT);
     this.timer = new Timer();
     this.score = new Score();
 
     this.tiles = this.map.matrix;
+
     this.#addNewTile();
     this.#addNewTile();
     this.#countScore();
 
-    this.draw();
-
-    this.$DIALOG.innerHTML = 'Get 2048!';
-    this.interval = setInterval(this.draw, 1000);
+    this.#draw();
   }
 
-  draw() {
+  #eventLoop() {
+    this.#draw();
+  }
+
+  #draw() {
     this.map.draw();
 
     for (let x = 0; x <= 3; x++) {
@@ -218,127 +257,15 @@ export class Game2048 {
     }
 
     this.#updateCoordinates();
-    this.draw();
+    this.#draw();
 
     if (countChanges > 0) {
       this.#addNewTile();
     }
 
-    this.draw();
+    this.#draw();
     this.#countScore();
     this.#progressChecker();
-  }
-
-  #keyboard() {
-    window.addEventListener('keydown', (e) => {
-      if (e.code === 'ArrowUp' || e.code === 'KeyW') {
-        this.#move('Up');
-      } else if (e.code === 'ArrowDown' || e.code === 'KeyS') {
-        this.#move('Down');
-      } else if (e.code === 'ArrowLeft' || e.code === 'KeyA') {
-        this.#move('Left');
-      } else if (e.code === 'ArrowRight' || e.code === 'KeyD') {
-        this.#move('Right');
-      } else if (e.code === 'KeyR') {
-        clearInterval(this.interval);
-        this.init();
-      }
-    });
-  }
-
-  #gamepads() {
-    const checkGamepadSupport = () => {
-      return 'getGamepads' in window.navigator;
-    };
-    const addGamepad = () => {
-      if (!checkGamepadSupport()) {
-        return;
-      }
-      window.addEventListener('gamepadconnected', () => {
-        const update = () => {
-          keyPressInterval += 10;
-          let gamepads = navigator.getGamepads();
-          let isPressed = false;
-          let button;
-          gamepads[0].buttons.forEach((item, index) => {
-            if (item.value === 1) {
-              button = index;
-              isPressed = true;
-            }
-          });
-          if (!isPressed) {
-            return;
-          } else {
-            gamepadHandler(button);
-          }
-        };
-        gamepadInterval = setInterval(update, 10);
-      });
-    };
-
-    const gamepadHandler = (button) => {
-      if (keyPressInterval >= 250) {
-        switch (button) {
-          case 3:
-            clearInterval(this.interval);
-            this.init();
-            break;
-          case 12:
-            this.#move('Up');
-            break;
-          case 13:
-            this.#move('Down');
-            break;
-          case 14:
-            this.#move('Left');
-            break;
-          case 15:
-            this.#move('Right');
-            break;
-          default:
-            break;
-        }
-        keyPressInterval = 0;
-      }
-    };
-
-    // eslint-disable-next-line
-    let gamepadInterval = 0;
-    let keyPressInterval = 0;
-
-    addGamepad();
-  }
-
-  #touches() {
-    let startX = 0;
-    let startY = 0;
-    let endX = 0;
-    let endY = 0;
-
-    this.$MAP.addEventListener('touchstart', (event) => {
-      startX = event.touches[0].pageX;
-      startY = event.touches[0].pageY;
-    });
-    this.$MAP.addEventListener('touchend', (event) => {
-      endX = event.changedTouches[0].pageX;
-      endY = event.changedTouches[0].pageY;
-
-      let x = endX - startX;
-      let y = endY - startY;
-
-      let absX = Math.abs(x) > Math.abs(y);
-      let absY = Math.abs(y) > Math.abs(x);
-
-      if (x > 0 && absX) {
-        this.#move('Right');
-      } else if (x < 0 && absX) {
-        this.#move('Left');
-      } else if (y > 0 && absY) {
-        this.#move('Down');
-      } else if (y < 0 && absY) {
-        this.#move('Up');
-      }
-    });
   }
 
   #configurations() {
@@ -354,9 +281,9 @@ export class Game2048 {
   }
 
   #eventListeners() {
-    this.#keyboard();
-    this.#gamepads();
-    this.#touches();
+    this._keyboard = new Keyboard(this);
+    this._gamepads = new Gamepad(this);
+    this._touchscreen = new Touchscreen(this, this.$MAP);
   }
 }
 

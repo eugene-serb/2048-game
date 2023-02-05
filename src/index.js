@@ -2,5 +2,9 @@
 
 import Game2048 from '@/2048.js';
 
-const game2048 = new Game2048();
+const params = {
+  speedRate: 200,
+};
+
+const game2048 = new Game2048(params);
 game2048.start();
