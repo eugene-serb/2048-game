@@ -17,13 +17,15 @@ export class Game2048 {
 
   init = () => {
     this.map = new Map(this.$MAP, this.MATRIX_WIDTH, this.MATRIX_HEIGHT);
-    this.score = new Score(this.$SCORE);
     this.timer = new Timer(this.$TIMER);
+    this.score = new Score();
 
     this.tiles = this.map.matrix;
     this.#addNewTile();
     this.#addNewTile();
     this.#countScore();
+
+    this.draw();
 
     this.$DIALOG.innerHTML = 'Get 2048!';
     this.interval = setInterval(this.draw, 1000);
@@ -31,7 +33,6 @@ export class Game2048 {
 
   draw = () => {
     this.map.draw();
-    this.score.draw();
     this.timer.draw();
 
     for (let x = 0; x <= 3; x++) {
@@ -41,6 +42,8 @@ export class Game2048 {
         }
       }
     }
+
+    this.$SCORE.innerText = `Score: ${this.score.value}`;
   };
 
   #addNewTile = () => {
@@ -83,7 +86,8 @@ export class Game2048 {
         }
       }
     }
-    this.score.update(totalScore);
+
+    this.score.value = totalScore;
   };
 
   #progressChecker = () => {
