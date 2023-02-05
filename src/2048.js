@@ -15,7 +15,7 @@ export class Game2048 {
     this.init();
   }
 
-  init = () => {
+  init() {
     this.map = new Map(this.$MAP, this.MATRIX_WIDTH, this.MATRIX_HEIGHT);
     this.timer = new Timer();
     this.score = new Score();
@@ -29,9 +29,9 @@ export class Game2048 {
 
     this.$DIALOG.innerHTML = 'Get 2048!';
     this.interval = setInterval(this.draw, 1000);
-  };
+  }
 
-  draw = () => {
+  draw() {
     this.map.draw();
 
     for (let x = 0; x <= 3; x++) {
@@ -44,9 +44,9 @@ export class Game2048 {
 
     this.$SCORE.innerText = `Score: ${this.score.value}`;
     this.$TIMER.innerText = `Time: ${this.timer.value}`;
-  };
+  }
 
-  #addNewTile = () => {
+  #addNewTile() {
     if (this.#emptyCellsChecker() === 0) return;
 
     let emptyCells = new Array();
@@ -65,9 +65,9 @@ export class Game2048 {
     let y = emptyCells[random][1];
 
     this.tiles[x][y] = new Tile(x, y, cost);
-  };
+  }
 
-  #emptyCellsChecker = () => {
+  #emptyCellsChecker() {
     let count = 0;
     for (let x = 0; x < this.MATRIX_WIDTH; x++) {
       for (let y = 0; y < this.MATRIX_HEIGHT; y++) {
@@ -75,9 +75,9 @@ export class Game2048 {
       }
     }
     return count;
-  };
+  }
 
-  #countScore = () => {
+  #countScore() {
     let totalScore = 0;
     for (let x = 0; x < this.MATRIX_WIDTH; x++) {
       for (let y = 0; y < this.MATRIX_HEIGHT; y++) {
@@ -88,9 +88,9 @@ export class Game2048 {
     }
 
     this.score.value = totalScore;
-  };
+  }
 
-  #progressChecker = () => {
+  #progressChecker() {
     let movements = 0;
     for (let x = 0; x < this.MATRIX_WIDTH; x++) {
       for (let y = 0; y < this.MATRIX_HEIGHT; y++) {
@@ -113,9 +113,9 @@ export class Game2048 {
       this.$DIALOG.innerText = 'Game Over!';
       clearInterval(this.interval);
     }
-  };
+  }
 
-  #updateCoordinates = () => {
+  #updateCoordinates() {
     for (let x = 0; x < this.MATRIX_WIDTH; x++) {
       for (let y = 0; y < this.MATRIX_HEIGHT; y++) {
         if (this.tiles[x][y] !== 0) {
@@ -124,9 +124,9 @@ export class Game2048 {
         }
       }
     }
-  };
+  }
 
-  #shrink = (line) => {
+  #shrink(line) {
     for (let i = 0; i < line.length; i++) {
       if (line[i] === 0) {
         line.splice(i, 1);
@@ -149,9 +149,9 @@ export class Game2048 {
       }
     }
     return line;
-  };
+  }
 
-  #move = (direction) => {
+  #move(direction) {
     let countChanges = 0;
 
     for (let x = 0; x <= 3; x++) {
@@ -227,9 +227,9 @@ export class Game2048 {
     this.draw();
     this.#countScore();
     this.#progressChecker();
-  };
+  }
 
-  #keyboard = () => {
+  #keyboard() {
     window.addEventListener('keydown', (e) => {
       if (e.code === 'ArrowUp' || e.code === 'KeyW') {
         this.#move('Up');
@@ -244,9 +244,9 @@ export class Game2048 {
         this.init();
       }
     });
-  };
+  }
 
-  #gamepads = () => {
+  #gamepads() {
     const checkGamepadSupport = () => {
       return 'getGamepads' in window.navigator;
     };
@@ -307,9 +307,9 @@ export class Game2048 {
     let keyPressInterval = 0;
 
     addGamepad();
-  };
+  }
 
-  #touches = () => {
+  #touches() {
     let startX = 0;
     let startY = 0;
     let endX = 0;
@@ -339,25 +339,25 @@ export class Game2048 {
         this.#move('Up');
       }
     });
-  };
+  }
 
-  #configurations = () => {
+  #configurations() {
     this.MATRIX_WIDTH = 4;
     this.MATRIX_HEIGHT = 4;
-  };
+  }
 
-  #DOMs = () => {
+  #DOMs() {
     this.$MAP = document.querySelector('#map');
     this.$SCORE = document.querySelector('#score');
     this.$TIMER = document.querySelector('#timer');
     this.$DIALOG = document.querySelector('#dialog');
-  };
+  }
 
-  #eventListeners = () => {
+  #eventListeners() {
     this.#keyboard();
     this.#gamepads();
     this.#touches();
-  };
+  }
 }
 
 export default Game2048;
