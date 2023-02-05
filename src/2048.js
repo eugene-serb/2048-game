@@ -1,7 +1,7 @@
 'use strict';
 
 import Gameloop from '@/gameloop.js';
-import Map from '@/map.js';
+import GridDrawer from '@/grid-drawer.js';
 import Score from '@/score.js';
 import Timer from '@/timer.js';
 import Tile from '@/tile.js';
@@ -53,11 +53,11 @@ export class Game2048 extends Gameloop {
   #init() {
     this.$DIALOG.innerHTML = 'Get 2048!';
 
-    this.map = new Map(this.$MAP, this.MATRIX_WIDTH, this.MATRIX_HEIGHT);
     this.timer = new Timer();
     this.score = new Score();
 
-    this.tiles = this.map.matrix;
+    this.drawer = new GridDrawer(this.$MAP, this.MATRIX_WIDTH, this.MATRIX_HEIGHT);
+    this.tiles = this.drawer.matrix;
 
     this.#addNewTile();
     this.#addNewTile();
@@ -71,7 +71,7 @@ export class Game2048 extends Gameloop {
   }
 
   #draw() {
-    this.map.draw();
+    this.drawer.draw();
 
     for (let x = 0; x <= 3; x++) {
       for (let y = 0; y <= 3; y++) {
