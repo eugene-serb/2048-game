@@ -1,10 +1,10 @@
 'use strict';
 
-import Support from '@/support.js';
 import Score from '@/score.js';
 import Timer from '@/timer.js';
 import Tile from '@/tile.js';
 import Map from '@/map.js';
+import { getRandomInteger } from '@/helpers.js';
 
 export class Game2048 {
   constructor() {
@@ -12,22 +12,20 @@ export class Game2048 {
     this.#DOMs();
     this.#eventListeners();
 
-    this.support = new Support();
-
     this.init();
   }
 
   init = () => {
-    this.map = new Map(this.$MAP_WRAPPER, this.MATRIX_WIDTH, this.MATRIX_HEIGHT);
-    this.score = new Score(this.$SCORE_WRAPPER);
-    this.timer = new Timer(this.$TIMER_WRAPPER);
+    this.map = new Map(this.$MAP, this.MATRIX_WIDTH, this.MATRIX_HEIGHT);
+    this.score = new Score(this.$SCORE);
+    this.timer = new Timer(this.$TIMER);
 
     this.tiles = this.map.matrix;
     this.#addNewTile();
     this.#addNewTile();
     this.#countScore();
 
-    this.$DIALOG_WRAPPER.innerHTML = 'Get 2048!';
+    this.$DIALOG.innerHTML = 'Get 2048!';
     this.interval = setInterval(this.draw, 1000);
   };
 
@@ -58,8 +56,8 @@ export class Game2048 {
       }
     }
 
-    let random = this.support.getRandomInteger(0, emptyCells.length);
-    let cost = 2 * this.support.getRandomInteger(1, 3);
+    let random = getRandomInteger(0, emptyCells.length);
+    let cost = 2 * getRandomInteger(1, 3);
     let x = emptyCells[random][0];
     let y = emptyCells[random][1];
 
@@ -108,7 +106,7 @@ export class Game2048 {
       }
     }
     if (movements === 0) {
-      this.$DIALOG_WRAPPER.innerText = 'Game Over!';
+      this.$DIALOG.innerText = 'Game Over!';
       clearInterval(this.interval);
     }
   };
@@ -313,11 +311,11 @@ export class Game2048 {
     let endX = 0;
     let endY = 0;
 
-    this.$MAP_WRAPPER.addEventListener('touchstart', (event) => {
+    this.$MAP.addEventListener('touchstart', (event) => {
       startX = event.touches[0].pageX;
       startY = event.touches[0].pageY;
     });
-    this.$MAP_WRAPPER.addEventListener('touchend', (event) => {
+    this.$MAP.addEventListener('touchend', (event) => {
       endX = event.changedTouches[0].pageX;
       endY = event.changedTouches[0].pageY;
 
@@ -345,10 +343,10 @@ export class Game2048 {
   };
 
   #DOMs = () => {
-    this.$MAP_WRAPPER = document.querySelector('#map');
-    this.$SCORE_WRAPPER = document.querySelector('#score');
-    this.$TIMER_WRAPPER = document.querySelector('#timer');
-    this.$DIALOG_WRAPPER = document.querySelector('#dialog');
+    this.$MAP = document.querySelector('#map');
+    this.$SCORE = document.querySelector('#score');
+    this.$TIMER = document.querySelector('#timer');
+    this.$DIALOG = document.querySelector('#dialog');
   };
 
   #eventListeners = () => {
