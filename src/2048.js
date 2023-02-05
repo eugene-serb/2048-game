@@ -17,7 +17,7 @@ export class Game2048 {
 
   init = () => {
     this.map = new Map(this.$MAP, this.MATRIX_WIDTH, this.MATRIX_HEIGHT);
-    this.timer = new Timer(this.$TIMER);
+    this.timer = new Timer();
     this.score = new Score();
 
     this.tiles = this.map.matrix;
@@ -33,7 +33,6 @@ export class Game2048 {
 
   draw = () => {
     this.map.draw();
-    this.timer.draw();
 
     for (let x = 0; x <= 3; x++) {
       for (let y = 0; y <= 3; y++) {
@@ -44,6 +43,7 @@ export class Game2048 {
     }
 
     this.$SCORE.innerText = `Score: ${this.score.value}`;
+    this.$TIMER.innerText = `Time: ${this.timer.value}`;
   };
 
   #addNewTile = () => {
