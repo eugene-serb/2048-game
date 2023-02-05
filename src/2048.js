@@ -2,8 +2,9 @@
 
 import Gameloop from '@/gameloop.js';
 import GridDrawer from '@/grid-drawer.js';
-import Score from '@/score.js';
 import Timer from '@/timer.js';
+import Score from '@/score.js';
+import Rating from '@/rating.js';
 import Tile from '@/tile.js';
 import Keyboard from '@/keyboard.js';
 import Gamepad from '@/gamepad.js';
@@ -11,12 +12,18 @@ import Touchscreen from '@/touchscreen.js';
 import { getRandomInteger } from '@/helpers.js';
 
 export class Game2048 extends Gameloop {
-  constructor() {
+  constructor(params) {
     super();
+
+    this._params = params;
 
     this.SPEED_RATE = (this._params?.speedRate &&
       typeof this._params?.speedRate === 'number'
     ) ? this._params?.speedRate : 1000;
+
+    this.KEY_RATING = (this._params?.keyRating &&
+      typeof this._params?.keyRating === 'string'
+    ) ? this._params?.keyRating : 'es:2048';
 
     this.#DOMs();
     this.#configurations();
@@ -45,12 +52,50 @@ export class Game2048 extends Gameloop {
     this.interval = setInterval(this.#eventLoop.bind(this), this.SPEED_RATE);
   }
 
+  setGameOver() {
+    super.setGameOver();
+
+    const score = this.score.value;
+    const time = this.timer.value;
+
+    this.rating.add(score, time);
+    this.drawRating();
+  }
+
   clear() {
     super.clear();
     this.#init();
   }
 
+  drawRating() {
+    this.$RATING.innerHTML = '';
+
+    const rating = this.rating.value;
+
+    for (let i = 0; i < rating.length && i < 10; i++) {
+      const row = document.createElement('tr');
+      const a = document.createElement('td');
+      const b = document.createElement('td');
+      const c = document.createElement('td');
+      const d = document.createElement('td');
+
+      const time = new Date(rating[i].date)
+
+      a.innerText = i + 1;
+      b.innerText = rating[i].score;
+      c.innerText = rating[i].time;
+      d.innerText = time.toLocaleDateString();
+
+      row.append(a, b, c, d);
+
+      this.$RATING.appendChild(row);
+    }
+  }
+
   #init() {
+    this.rating = new Rating(this.KEY_RATING);
+    this.drawRating();
+
     this.$DIALOG.innerHTML = 'Get 2048!';
 
     this.timer = new Timer();
@@ -150,7 +195,7 @@ export class Game2048 extends Gameloop {
     }
     if (movements === 0) {
       this.$DIALOG.innerText = 'Game Over!';
-      clearInterval(this.interval);
+      this.setGameOver();
     }
   }
 
@@ -278,6 +323,7 @@ export class Game2048 extends Gameloop {
     this.$SCORE = document.querySelector('#score');
     this.$TIMER = document.querySelector('#timer');
     this.$DIALOG = document.querySelector('#dialog');
+    this.$RATING = document.querySelector('#rating');
   }
 
   #eventListeners() {
