@@ -17,13 +17,15 @@ export class Game2048 extends Gameloop {
 
     this._params = params;
 
-    this.SPEED_RATE = (this._params?.speedRate &&
-      typeof this._params?.speedRate === 'number'
-    ) ? this._params?.speedRate : 1000;
+    this.SPEED_RATE =
+      this._params?.speedRate && typeof this._params?.speedRate === 'number'
+        ? this._params?.speedRate
+        : 1000;
 
-    this.KEY_RATING = (this._params?.keyRating &&
-      typeof this._params?.keyRating === 'string'
-    ) ? this._params?.keyRating : 'es:2048';
+    this.KEY_RATING =
+      this._params?.keyRating && typeof this._params?.keyRating === 'string'
+        ? this._params?.keyRating
+        : 'es:2048';
 
     this.#DOMs();
     this.#configurations();
@@ -79,7 +81,7 @@ export class Game2048 extends Gameloop {
       const c = document.createElement('td');
       const d = document.createElement('td');
 
-      const time = new Date(rating[i].date)
+      const time = new Date(rating[i].date);
 
       a.innerText = i + 1;
       b.innerText = rating[i].score;

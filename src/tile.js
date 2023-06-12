@@ -10,7 +10,9 @@ export class Tile {
   }
 
   draw() {
-    document.querySelector(`[x = "${this.x}"][y = "${this.y}"]`).classList.add('tile', 'tile-' + this.cost);
+    document
+      .querySelector(`[x = "${this.x}"][y = "${this.y}"]`)
+      .classList.add('tile', 'tile-' + this.cost);
     document.querySelector(`[x = "${this.x}"][y = "${this.y}"]`).innerText = this.cost;
   }
 }
