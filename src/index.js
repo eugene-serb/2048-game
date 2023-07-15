@@ -1,11 +1,9 @@
 'use strict';
 
-import Game2048 from '@/2048.js';
+const ENTRIES = require('./entries.js');
+const PAGES = require('./pages.js');
 
-const params = {
-  speedRate: 200,
-  keyRating: 'es:2048',
+module.exports = {
+  ENTRIES,
+  PAGES,
 };
-
-const game2048 = new Game2048(params);
-game2048.start();

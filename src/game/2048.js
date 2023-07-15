@@ -1,15 +1,15 @@
 'use strict';
 
-import Gameloop from '@/gameloop.js';
-import GridDrawer from '@/grid-drawer.js';
-import Timer from '@/timer.js';
-import Score from '@/score.js';
-import Rating from '@/rating.js';
-import Tile from '@/tile.js';
-import Keyboard from '@/keyboard.js';
-import Gamepad from '@/gamepad.js';
-import Touchscreen from '@/touchscreen.js';
-import { getRandomInteger } from '@/helpers.js';
+import Gameloop from '@/engine/gameloop.js';
+import Timer from '@/engine//timer.js';
+import Score from '@/engine//score.js';
+import Rating from '@/engine//rating.js';
+import Keyboard from '@/engine//keyboard.js';
+import Gamepad from '@/engine//gamepad.js';
+import Touchscreen from '@/engine//touchscreen.js';
+import { getRandomInteger } from '@/engine//helpers.js';
+import GridDrawer from '@/game/grid-drawer.js';
+import Tile from '@/game/tile.js';
 
 export class Game2048 extends Gameloop {
   constructor(params) {
