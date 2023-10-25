@@ -1,6 +1,6 @@
 {
   "name": "2048-game",
-  "version": "1.3.3",
+  "version": "2.0.0",
   "description": "This is a simple browser implementation of a game 2048.",
   "keywords": [
     "2048-game",
@@ -28,9 +28,9 @@
     "build": "webpack --mode production",
     "build:dev": "webpack --mode development",
     "lint": "eslint src",
-    "lint:fix": "eslint src --fix",
-    "format": "npx prettier src --check",
-    "format:fix": "npx prettier src --write --ignore-unknown",
+    "lint:fix": "eslint --fix src",
+    "format": "npx prettier --check src",
+    "format:fix": "npx prettier --write --ignore-unknown src",
     "test": "jest tests"
   },
   "devDependencies": {
