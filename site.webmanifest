@@ -1,7 +1,23 @@
 {
-  "name": "eugene-serb.github.io",
-  "short_name": "eugene-serb",
+  "name": "2048 Game",
+  "short_name": "2048 Game",
+  "description": "Game 2048 with support for keyboard, gamepad and mouse. Let's play!",
   "icons": [
+    {
+      "src": "./img/favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "./img/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "./img/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
     {
       "src": "./img/android-chrome-192x192.png",
       "sizes": "192x192",
