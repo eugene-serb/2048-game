@@ -19,7 +19,7 @@ describe('[Helpers] function getRandomInteger', () => {
     for (let i = 0; i < count; i++) {
       const number = getRandomInteger(min, max);
 
-      if (!typeof number === 'number' || number < min || number >= max) {
+      if (number < min || number >= max) {
         isValid = false;
       }
     }
