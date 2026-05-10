@@ -1,6 +1,6 @@
 {
   "name": "2048-game",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "description": "Game 2048 with support for keyboard, gamepad and mouse. Let's play!",
   "keywords": [
     "2048-game",
